@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html>
+  <head>
+      <style>
+          body {
+             font-family:Arial, Helvetica, sans-serif ;
+          font-weight:bold ;
+          }
+          .header {
+              padding: 32px
+          }
+          .petname{
+              font-size: 32px
+          }
+          .pet-image {
+              height: 500px;
+              max-width: 100%;
+              padding: 32px
+          }
+          .main {
+              display: grid;
+              grid-template-columns: 1fr 1fr;
+          }
+          .image-area {
+              display: grid;
+              justify-items: center;
+              background-color:wheat
+          }
+          .activity-icon {
+              width: 40px;
+              height: 40px;
+              
+          }
+          .activity-row {
+              display: grid;
+              grid-template-columns: 1fr 1fr 1fr; 
+              padding: 0 1rem;
+              width: 90%;
+              align-items: center;
+          }
+          .interactive-area {
+              justify-items: center;
+              align-items: center;
+              display: grid;
+              background-color:teal
+          }
+          .activity-button {
+          background-color: #B27499;
+          border-radius: 8px;
+          box-shadow: 0 0 5px 0 grey; 
+          color: white; 
+          cursor: pointer;  
+          height: 100%;
+          display: grid;
+          align-items: center;
+          justify-items: center;
+          }
+          .hidden {
+              display: none;
+          }
+      </style>
+    </head>
+  <body>
+    <div class="header">
+        <div class="pet-name">Momo</div>
+        <div class="description">A few plums short of a fruit pie</div>
+    </div>
+
+    <div class="main">
+      <div class="image-area">
+
+          <img id="pet-image" class="pet-image" src="neutral.gif"/></div>
+
+      <div class="interactive-area">
+
+
+        <div id="food-row" class="activity-row">
+            <img class="activity-icon" src="food.png" />
+            <div id="food-stat" class="activity-stat">50</div>
+            <div class="activity-button" onclick="giveFood()">Eat cabbages</div>
+          </div>
+
+          <div id="water-row" class="activity-row">
+            <img class="activity-icon" src="water.png" />
+            <div id= "water-stat" class="activity-stat">50</div>
+            <div class="activity-button" onclick="giveWater()">Drink cactus juice</div>
+          </div>
+
+      <div id="exercise-row" class="activity-row">
+          <img class="activity-icon" src="exercise.png" />
+          <div id= "exercise-stat" class="activity-stat">50</div>
+          <div class="activity-button" onclick="giveExercise()">Lift boulders</div>
+        </div>
+
+
+        <div id="end-game" class="end-game hidden">
+            <div class="message">
+              Your pet has passed out.
+            </div>
+            <div class="activity-button restart-button" onclick="restart()">
+              Restart
+            </div>
+          </div>
+
+  <script>
+var giveFood = () => {
+    food = food + 15
+    water = water - 5
+    exercise = exercise - 5
+updateHTML ()
+}
+var giveWater = () => {
+    water = water + 15
+    food = food - 5
+    exercise = exercise - 2
+    updateHTML()
+}
+var giveExercise = () => {
+    exercise= exercise + 30
+    water= water - 15
+    food=food - 10
+    updateHTML()
+}
+
+var agePet = () => {
+   water = water-8
+    food = food-4
+   exercise = exercise-2
+    updateHTML ()
+}
+setInterval (agePet, 2000)
+var updateHTML = () => {
+      document.getElementById("food-stat").innerHTML = food
+      document.getElementById("water-stat").innerHTML = water
+      document.getElementById("exercise-stat").innerHTML = exercise
+      var lowestStat = Math.min (food, water, exercise)
+      var imageSrc 
+
+      if (lowestStat<= 0) {
+          imageSrc= 'passed-out.gif'
+          if (hasNotPassedOut) {
+          toggleInteractivity()
+          hasNotPassedOut = false 
+          }
+      }
+       else if (lowestStat < 25) {
+          imageSrc= 'tired.gif'}
+          else if (lowestStat<75) {
+              imageSrc='neutral.gif'
+          }
+          else if (lowestStat<150) {
+              imageSrc='upbeat.gif'
+          }
+          else {
+              imageSrc='exuberant.gif'
+          }
+          document.getElementById("pet-image").src = imageSrc
+      }
+      
+      
+    
+
+    var hasNotPassedOut = true    
+        var food = 50
+        var water = 50
+        var exercise = 50
+
+var toggleInteractivity = () => {
+      document.getElementById("food-row").classList.toggle("hidden")
+      document.getElementById("water-row").classList.toggle("hidden")
+      document.getElementById("exercise-row").classList.toggle("hidden")
+      document.getElementById("end-game").classList.toggle("hidden")
+    }
+
+    var restart = () => {
+      food = 50
+      water = 50
+      exercise = 50
+      hasNotPassedOut = true
+      toggleInteractivity()
+      updateHTML()
+    }    
+
+  </script>
+</html>
